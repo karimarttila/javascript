@@ -69,6 +69,7 @@ function addUser(newEmail, firstName, lastName, password) {
     newUser.first_name = firstName;
     newUser.last_name = lastName;
     newUser.hashed_password = `${hashedPassword}`;
+    // Side effect: The new user is actually a new property of the users object.
     users[newId] = newUser;
     ret = { email: newEmail, ret: 'ok' };
   }

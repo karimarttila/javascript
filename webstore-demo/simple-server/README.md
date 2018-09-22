@@ -20,6 +20,7 @@
 - [Building for Production](#building-for-production)
 - [Conclusions](#conclusions)
   - [Javascript Syntax](#javascript-syntax)
+  - [Learning Curve](#learning-curve)
   - [Tooling](#tooling)
   - [Developer Experiences](#developer-experiences)
   - [Javascript / Node vs. Clojure / JVM](#javascript--node-vs-clojure--jvm)
@@ -192,6 +193,11 @@ BTW. Now I understand why linters are more or less a mandatory part of Javascrip
 
 And of course there is the division between statically typed (Java)and dynamically typed languages (Python, Clojure, Javascript) (see more e.g. in [wiki](https://en.wikipedia.org/wiki/Type_system)). In an enterprise type of software where there is a huge code base and tens of developers working on the code base on the same time the statically typed language protects developers quite a lot (not to speak about the good tooling that IDEs can provide based on static types). But for microservices and personal hacks dynamically typed languages beats statically typed languages hands down in developer productivity.
 
+## Learning Curve
+
+The learning curve for Javascript / Node was very gentle - you can learn the basic stuff of Javascript and Node in a couple of days and then be productive and start implementing e.g. a REST server just like I did in this exercise. The learning curve of Clojure was a lot steeper even though I used Scheme one year at the Helsinki University of Technology back in the 90's. I believe that the learning curve for Java is also a lot steeper. The basic stuff in Javascript is pretty simple and you can be productive also with the basic stuff and learn more on the fly when working in a real project. This is a good thing - a language should be easy, so that you can learn the basic stuff in a couple of days and then start working with the real thing and learn more when you need it. 
+
+Why did I want to learn Clojure then if the learning curve is so steep? Well, it was more about an intellectual challenge. Learning and using Lisp changes the way you think and [makes you a better programmer](https://www.quora.com/Ive-heard-that-Lisp-makes-you-a-better-programmer-What-is-it-about-Lisp-that-strengthens-your-programming-skills). This is actually something I'd like to learn more in my Javascript / Node quest: how to use Javascript with immutable and functional programming paradigm? I also heard that Javascript is [a Lisp in C's clothing](https://www.crockford.com/javascript/javascript.html). Maybe after learning the basic stuff in Javascript I start to learn to use it in a more functional way. 
 
 ## Tooling
 
@@ -202,8 +208,6 @@ Node comes with npm which provides good tooling for the Node development. Visual
 I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is something that is absolutely impossible to explain to another developer who has never done real stuff with a Lisp and and never used a Lisp REPL. IDEA / Cursive REPL is just the most productive development environment I have ever used. Using a Lisp REPL makes your program like an organic entity which grows with you experimenting with it using the REPL.
 
 Having said that I must also say that Node with npm and Visual Studio Code is not bad at all. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And no with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
-
-
 
 ## Javascript / Node vs. Clojure / JVM
 
@@ -217,7 +221,6 @@ I.e. Node starts immediately and run the tests. JVM boots very slowly, then load
 Well, a couple of seconds of developer time is not that bad if the language lets you be more prodactive. With Clojure REPL you don't actually run the whole project at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
 
 I'm not going to compare the Node / JVM performance differences in various scenarios since wiser men have already written quite a lot about it (e.g. "Speaking Intelligently about "Java vs Node" Performance"(https://rclayton.silvrback.com/speaking-intelligently-about-java-vs-node-performance)). But there is one thing that you should understand as a developer - the different paradigm how typical server implementations work in Node and JVM: Node handles all requests in one thread using event loop and JVM typically spins a new thread per request - both mechanisms have pros and cons.
-
 
 ## Javascript vs. Python
 
