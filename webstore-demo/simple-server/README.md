@@ -19,7 +19,12 @@
 - [Session Handling](#session-handling)
 - [Building for Production](#building-for-production)
 - [Conclusions](#conclusions)
-  - [Comparing Javascript / Node vs. Clojure / JVM](#comparing-javascript--node-vs-clojure--jvm)
+  - [Javascript Syntax](#javascript-syntax)
+  - [Tooling](#tooling)
+  - [Developer Experiences](#developer-experiences)
+  - [Javascript / Node vs. Clojure / JVM](#javascript--node-vs-clojure--jvm)
+  - [Javascript vs. Python](#javascript-vs-python)
+  - [Javascript and Node - Is There a Place in My Toolbox for Them?](#javascript-and-node---is-there-a-place-in-my-toolbox-for-them)
 
 
 
@@ -36,7 +41,7 @@ I also try to replicate the Clojure namespace structure to the equivalent Node s
 
 # Technical Description
 
-Simple Server is implemented using [Javascript](https://en.wikipedia.org/wiki/JavaScript) and [Node](https://nodejs.org/en/).
+Simple Server is implemented using [Javascript](https://developer.mozilla.org/bm/docs/Web/JavaScript) and [Node](https://nodejs.org/en/).
 
 # Disclaimer
 
@@ -135,7 +140,7 @@ undefined
 > 2018-09-20 20:01:51.235 DEBUG testing
 ```
 
-I also installed a Visual Studio Code extension called "Nodejs REPL". The extension provides an editor which sends the editor content live to the REPL.
+I also installed a Visual Studio Code extension called "Nodejs REPL". The extension provides an editor which sends the editor content live to the REPL. I experimented the REPL some time but then uninstalled it because it was a bit weird (sending your file to REPL after every keystroke...).
 
 So, you can use the Node REPL for experimenting your code before you write it into the actual source file. 
 
@@ -146,6 +151,8 @@ I really would like to learn how to use the Node REPL in a more efficient way. E
 ## Visual Studio Debugger
 
 Visual Studio Debugger is pretty nice. I experimented that you can easily debug a module by adding the function you want to debug at the end of the module and start the module in debugger. Breakpoints etc. work as in other languages / IDEs. But afterall a poor substitute for a live Lisp REPL.
+
+I also managed to configure my [launch.json](launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff. 
 
 
 # CORS Issues
@@ -175,6 +182,51 @@ TODO.
 
 # Conclusions
 
-## Comparing Javascript / Node vs. Clojure / JVM
+## Javascript Syntax
 
-TODO.
+Javascript syntax is probably the number one thing that I don't like that much in Javascript. I must say that the syntax is not that good if you compare it e.g. to Python (easy and concise) or Clojure (Lisp and elegant). In Clojure the Lisp and very minimal syntax is really elegant. The homoiconic nature lets you do all kinds of cool stuff in IDE (e.g. in IDEA/Cursive I created a hot key <shift><ctrl><k> which kills everything in this S-expression to the end of this S-expression (compared to standard Emacs hot key <ctrl><k> which kill everything from the cursor point to the end of the line)).
+
+But once you learn to read the Javascript syntax it's - well not nice but more or less readable. I must say here that after some Python and Clojure hacking the Java syntax (verbose, very verbose) does not appeal me that much either. 
+
+BTW. Now I understand why linters are more or less a mandatory part of Javascript programming - linters protect the developer to shoot himself/herself on the foot with the Javascript syntax.
+
+And of course there is the division between statically typed (Java)and dynamically typed languages (Python, Clojure, Javascript) (see more e.g. in [wiki](https://en.wikipedia.org/wiki/Type_system)). In an enterprise type of software where there is a huge code base and tens of developers working on the code base on the same time the statically typed language protects developers quite a lot (not to speak about the good tooling that IDEs can provide based on static types). But for microservices and personal hacks dynamically typed languages beats statically typed languages hands down in developer productivity.
+
+
+## Tooling
+
+Node comes with npm which provides good tooling for the Node development. Visual Studio Code especially was a delightful suprise with its debugger and terminal.
+
+## Developer Experiences
+
+I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is something that is absolutely impossible to explain to another developer who has never done real stuff with a Lisp and and never used a Lisp REPL. IDEA / Cursive REPL is just the most productive development environment I have ever used. Using a Lisp REPL makes your program like an organic entity which grows with you experimenting with it using the REPL.
+
+Having said that I must also say that Node with npm and Visual Studio Code is not bad at all. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And no with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
+
+
+
+## Javascript / Node vs. Clojure / JVM
+
+Node is fast, that was my first observation. A short comparison running unit tests in Node vs Clojure/Lein/JVM:
+
+- Node npm/Mocha (time npm test): 0m0.187s
+- Clojure Leiningen (time lein test): 0m2.605s
+
+I.e. Node starts immediately and run the tests. JVM boots very slowly, then loads Clojure jar, then loads project class files, then runs tests, and some 2,5 seconds of my precious time has been consumed that I will never get back.
+
+Well, a couple of seconds of developer time is not that bad if the language lets you be more prodactive. With Clojure REPL you don't actually run the whole project at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
+
+I'm not going to compare the Node / JVM performance differences in various scenarios since wiser men have already written quite a lot about it (e.g. "Speaking Intelligently about "Java vs Node" Performance"(https://rclayton.silvrback.com/speaking-intelligently-about-java-vs-node-performance)). But there is one thing that you should understand as a developer - the different paradigm how typical server implementations work in Node and JVM: Node handles all requests in one thread using event loop and JVM typically spins a new thread per request - both mechanisms have pros and cons.
+
+
+## Javascript vs. Python
+
+I understand that younger developers who have learned Javascript when implementing frontends like to use Javascript with Node also in the backend side and use it as a scripting language with shells. But I would say that there is a much better language to be used as a bash surrogate: [Python](https://www.python.org/). I have used Python some 20 years (read more in my [blog](https://medium.com/tieto-developers/python-rocks-5dc453b5c222)) and it really is an excellent scripting language. It is always very easy to hack something quick in Python even if you haven't used the language for several months. The syntax is just so easy and clean and intuitive (which you really can't say about Javascript). That might the most important reason why I have never bothered to learn bash properly - you can always install python in any Linux box wih one yum/apt/whatever command and then hack the evil deed in Python and call the python script in the bash script.
+
+## Javascript and Node - Is There a Place in My Toolbox for Them?
+
+**Backend.** Definitely yes. If I can choose the backend stack would probably go for Java/Spring in enterprise type of heavy stuff, Clojure in a bit more relaxed backend system, probably Python when implementing short serverless functions in AWS/Azure. But there is a lot of Node implementations and if some team is already using Node - no problem, let's use Node. 
+
+**Frontend.** If I need to implement a simple admin type frontend for my own purposes I probably would use [ClojureScript](https://clojurescript.org/) since I really like the syntax and the real REPL when working with Lisp (read more in my [blog](https://medium.com/@kari.marttila/become-a-full-stack-developer-with-clojure-and-clojurescript-c58c93479294)). But the reality is that there is a lot of Javascript SPAs out there and if the team wants to use Javascript with Angular/React/whatever - no problem, let's use Javascript. One thing that I have learned anyway is that [SPA](https://en.wikipedia.org/wiki/Single-page_application) seems to be the future - I don't believe server side templating paradigm that much anymore (e.g. using Java with some templating libarary is a bit yesterday).
+
+
