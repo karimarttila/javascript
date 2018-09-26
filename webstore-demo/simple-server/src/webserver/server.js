@@ -36,18 +36,11 @@ function postSignin(req, res) {
   const myEmail = req.body.email;
   const myPassword = req.body.password;
   const validationPassed = validateParameters([myFirstName, myLastName, myEmail, myPassword]);
-  let responseValue;
-  if (validationPassed) {
-    responseValue = usersService.addUser(myEmail, myFirstName, myLastName, myPassword);
-  }
-  else {
-    responseValue = { ret: 'failed', msg: 'Validation failed - some fields were empty' };
-  }
-
+  const responseValue = validationPassed
+    ? usersService.addUser(myEmail, myFirstName, myLastName, myPassword)
+    : { ret: 'failed', msg: 'Validation failed - some fields were empty' };
   const responseStatus = responseValue.ret === 'ok' ? 200 : 400;
-
   res.status(responseStatus).json(responseValue);
-
   logger.debug('EXIT server.postSignin');
 }
 
