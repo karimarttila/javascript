@@ -126,7 +126,15 @@ TODO:
 
 ## Node REPL
 
-Node REPL is pretty good, a bit like Python REPL, but not anything like a real Lisp REPL, of course.
+Node REPL is pretty good, a bit like Python REPL, but not anything like a real Lisp REPL, of course. A couple of examples:
+
+Experimenting in REPL how to test if there are no nulls or empty srings in a list.:
+
+```bash
+!['a', '', 'c'].some(item => ((item == null) || (item == undefined) || (item == '')) )
+```
+
+Testing in REPL that I can load the logger module and use it.:
 
 ```bash
 cd src
@@ -145,9 +153,9 @@ I also installed a Visual Studio Code extension called "Nodejs REPL". The extens
 
 So, you can use the Node REPL for experimenting your code before you write it into the actual source file. 
 
-When comparing Node and Clojure REPLs, Clojure wins this round hands down. The Lisp REPL is a real REPL compared to code snippet REPLs of Javascript and Python. See e.g. integrated [Cursive REPL](https://cursive-ide.com/userguide/repl.html) in IDEA (my favorite).
+When comparing Node and Clojure REPLs, Clojure wins this round hands down. The Lisp REPL is a real REPL compared to code snippet REPLs of Javascript and Python. See e.g. integrated [Cursive REPL](https://cursive-ide.com/userguide/repl.html) in IDEA (my favorite). If you have never used a real Lisp REPL you just don't understand how enormously productive it can be to interact with the program you are developing.
 
-I really would like to learn how to use the Node REPL in a more efficient way. E.g. to reload modules etc.
+But since we have to use the Node REPL when implementing Node application I really would like to learn how to use the Node REPL in a more efficient way. E.g. to reload modules etc.
 
 ## Visual Studio Debugger
 
