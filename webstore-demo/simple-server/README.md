@@ -22,7 +22,9 @@
   - [Javascript Syntax](#javascript-syntax)
   - [Learning Curve](#learning-curve)
   - [Tooling](#tooling)
-  - [Developer Experiences](#developer-experiences)
+  - [REPL](#repl)
+  - [Developer Productivity](#developer-productivity)
+  - [Javascript as a Language](#javascript-as-a-language)
   - [Javascript / Node vs. Clojure / JVM](#javascript--node-vs-clojure--jvm)
   - [Javascript vs. Python](#javascript-vs-python)
   - [Javascript and Node - Is There a Place in My Toolbox for Them?](#javascript-and-node---is-there-a-place-in-my-toolbox-for-them)
@@ -211,11 +213,19 @@ Why did I want to learn Clojure then if the learning curve is so steep? Well, it
 
 Node comes with npm which provides good tooling for the Node development. Visual Studio Code especially was a delightful suprise with its debugger and terminal.
 
-## Developer Experiences
+## REPL
 
-I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is something that is absolutely impossible to explain to another developer who has never done real stuff with a Lisp and and never used a Lisp REPL. IDEA / Cursive REPL is just the most productive development environment I have ever used. Using a Lisp REPL makes your program like an organic entity which grows with you experimenting with it using the REPL.
+I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is something that is absolutely impossible to explain to another developer who has never done real stuff with a Lisp and and never used a Lisp REPL. IDEA / Cursive REPL is just the most productive development environment I have ever used. Using a Lisp REPL makes your program like an organic entity which grows with you experimenting with it using the REPL. The Node REPL is just fine but nothing compared to a real Lisp REPL.
 
-Having said that I must also say that Node with npm and Visual Studio Code is not bad at all. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And no with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
+## Developer Productivity
+
+Productivity with Javascript and Node with npm and Visual Studio Code is not bad at all. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And no with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
+
+Nodemon made the cycle of experimenting and developing the API real fast. 
+
+## Javascript as a Language
+
+Javascript as a language is not bad at all. The productivity is pretty good since the entry barrier to the language is really slow: you can learn the basic stuff in a couple of days and start implementing a web server with an API. And surely with time you can learn more idiomatic ways to use Javascript and become more efficient Javascript developer.
 
 ## Javascript / Node vs. Clojure / JVM
 
