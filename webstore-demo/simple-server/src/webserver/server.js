@@ -8,7 +8,8 @@ const logger = loggerFactory();
 
 const port = process.env.SS_PORT || 4045;
 
-/** A very simple validator: just check that no item in list is empty.
+/**
+ * A very simple validator: just check that no item in the list is empty.
  * @param {list} myList - the list of parameters
  */
 function validateParameters(myList) {
@@ -17,18 +18,37 @@ function validateParameters(myList) {
 
 // ***** Route functions start.
 
+/**
+ * Gets index page.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns index.html page
+ */
 function getIndexPage(req, res) {
   logger.debug('ENTER server.getIndexPage');
   res.status(200).sendFile('index.html');
   logger.debug('EXIT server.getIndexPage');
 }
 
+/**
+ * Processes GET/info
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} with info field
+ */
 function getInfo(req, res) {
   logger.debug('ENTER server.getInfo');
   res.status(200).json({ info: 'index.html => Info in HTML format' });
   logger.debug('EXIT server.getInfo');
 }
 
+/**
+ * Processes POST/signin.
+ * Validates parameters, then calls users service to add new user.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} with return information regarding success/failure
+ */
 function postSignin(req, res) {
   logger.debug('ENTER server.postSignin');
   const myFirstName = req.body['first-name'];
@@ -46,6 +66,10 @@ function postSignin(req, res) {
 
 // ***** Route functions end.
 
+/**
+ * Initializes the web server.
+ * @returns {object} web server instance
+ */
 function initWebServer() {
   logger.debug('ENTER server.initWebServer');
   const myWebServer = express();
@@ -70,6 +94,10 @@ function initWebServer() {
 
 const webServer = initWebServer();
 
+/**
+ * Gets the web server instance
+ * @returns {object} web server instance
+ */
 function getWebServer() {
   return webServer;
 }

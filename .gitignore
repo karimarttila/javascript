@@ -5,6 +5,9 @@
 .idea/
 *.iml
 
+# Generated jsdoc directory
+jsdoc-gen/
+
 # Log files
 *.log
 
