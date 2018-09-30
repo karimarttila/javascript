@@ -28,13 +28,26 @@ describe('DomainDB module', function () {
     });
   });
   describe('Should be 35 products in product group 1 / domain db', function () {
-    const products = JSON.parse(JSON.stringify(myDomain.getProducts(1)));
-    logger.debug(`Got products: ${JSON.stringify(products)}`);
-    it('getProducts returns list with 35 items', function () {
-      assert.equal(products.length, 35);
+    const products1 = JSON.parse(JSON.stringify(myDomain.getProducts(1)));
+    logger.debug(`Got products1: ${JSON.stringify(products1)}`);
+    it('getProducts for pg 1 returns list with 35 items', function () {
+      assert.equal(products1.length, 35);
       // Test last and first product.
-      assert.equal(us._.isEqual((products[0]), ['2001', '1', 'Kalevala', '3.95']), true);
-      assert.equal(us._.isEqual((products[34]), ['2035', '1', 'Mielensäpahoittaja', '50.6']), true);
+      assert.equal(us._.isEqual((products1[0]), ['2001', '1', 'Kalevala', '3.95']), true);
+      assert.equal(us._.isEqual((products1[34]), ['2035', '1', 'Mielensäpahoittaja', '50.6']), true);
+    });
+    const products2 = JSON.parse(JSON.stringify(myDomain.getProducts(2)));
+    it('getProducts for pg 2 returns list with 400 items', function () {
+      assert.equal(products2.length, 169);
+    });
+  });
+  describe('Should find product for pgId=2 and pId=49 in domain db', function () {
+    const product = JSON.parse(JSON.stringify(myDomain.getProduct(2, 49)));
+    logger.debug(`Got product: ${JSON.stringify(product)}`);
+    it('getProduct for pgId 2 and pId 49 returns list with 8 items', function () {
+      assert.equal(product.length, 8);
+      // What a coincidence! The chosen movie is the best western of all times!
+      assert.equal(us._.isEqual((product), ['49', '2', 'Once Upon a Time in the West', '14.4', 'Leone, Sergio', '1968', 'Italy-USA', 'Western']), true);
     });
   });
 });
