@@ -246,6 +246,8 @@ I'm not going to compare the Node / JVM performance differences in various scena
 
 I understand that younger developers who have learned Javascript when implementing frontends like to use Javascript with Node also in the backend side and use it as a scripting language with shells. But I would say that there is a much better language to be used as a bash surrogate: [Python](https://www.python.org/). I have used Python some 20 years (read more in my [blog](https://medium.com/tieto-developers/python-rocks-5dc453b5c222)) and it really is an excellent scripting language. It is always very easy to hack something quick in Python even if you haven't used the language for several months. The syntax is just so easy and clean and intuitive (which you really can't say about Javascript). That might the most important reason why I have never bothered to learn bash properly - you can always install python in any Linux box wih one yum/apt/whatever command and then hack the evil deed in Python and call the python script in the bash script.
 
+One example was the CSV processing. In the Python side this is pretty simple and there is one module which is quite ubiquitiously used. In the Node side there were quite a lot of various CSV modules and not all provided as clear API as in the Python side. 
+
 ## Javascript and Node - Is There a Place in My Toolbox for Them?
 
 **Backend.** Definitely yes. If I can choose the backend stack would probably go for Java/Spring in enterprise type of heavy stuff, Clojure in a bit more relaxed backend system, probably Python when implementing short serverless functions in AWS/Azure. But there is a lot of Node implementations and if some team is already using Node - no problem, let's use Node. 
