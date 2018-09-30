@@ -13,6 +13,7 @@
   - [Hot Code Reloading](#hot-code-reloading)
   - [Node REPL](#node-repl)
   - [Visual Studio Debugger](#visual-studio-debugger)
+- [Testing](#testing)
 - [CORS Issues](#cors-issues)
   - [Simple Server](#simple-server)
   - [Simple Frontend](#simple-frontend)
@@ -165,6 +166,16 @@ Visual Studio Debugger is pretty nice. I experimented that you can easily debug 
 
 I also managed to configure my [launch.json](launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff. 
 
+# Testing
+
+The assert Node module is pretty good. Creating tests with it is really simple and readability of the tests is good. Node is also lightning fast to start running the tests. E.g. you don't run the tests in the terminal in Clojure since it takes rather long time to load JVM, Clojure classes etc before the tests actually gets to run - in development you run the tests in the IDE where JVM and Clojure is already loaded. But in Node you can easily run the tests in terminal over and over again - the startup time is really fast.
+
+```bash
+time npm test
+...
+13 passing (16ms)
+real	0m0.407s
+```
 
 # CORS Issues
 
@@ -233,10 +244,10 @@ Javascript as a language is not bad at all. The productivity is pretty good sinc
 
 Node is fast, that was my first observation. A short comparison running unit tests in Node vs Clojure/Lein/JVM:
 
-- Node npm/Mocha (time npm test): 0m0.187s
+- Node npm/Mocha (time npm test): 0m0.403s
 - Clojure Leiningen (time lein test): 0m2.605s
 
-I.e. Node starts immediately and run the tests. JVM boots very slowly, then loads Clojure jar, then loads project class files, then runs tests, and some 2,5 seconds of my precious time has been consumed that I will never get back.
+I.e. Node starts immediately and run the tests. JVM boots very slowly, then loads Clojure jar, then loads project class files, then runs tests, and some 2,5 seconds of my precious time has been consumed that I will never get back in my life.
 
 Well, a couple of seconds of developer time is not that bad if the language lets you be more prodactive. With Clojure REPL you don't actually run the whole project at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
 
