@@ -13,6 +13,12 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Domain",
+      "program": "${workspaceFolder}/src/domaindb/domain"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",      
       "args": ["test/userdb/users.js", "--no-timeouts"],
       "name": "Users-test",

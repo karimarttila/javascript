@@ -30,7 +30,10 @@ const users = {
 };
 
 
-// A Javascript closure example.
+/**
+ * A simpler counter function. Also a Javascript closure example.
+ * @returns next id
+ */
 const idAdder = (function myAdder() {
   let counter = 3; // Initial value;
   // Return a function which encloses the free variable counter,
@@ -40,12 +43,23 @@ const idAdder = (function myAdder() {
   };
 }());
 
+
+/**
+ * Gets the users.
+ * @returns users in the user db
+ */
 function getUsers() {
   logger.debug('ENTER users.getUsers');
   logger.debug('EXIT users.getUsers');
   return users;
 }
 
+
+/**
+ * Checks if given email address already exists in the users db.
+ * @param {string} givenEmail - email to check
+ * @returns true - email already exists, false otherwise
+ */
 function emailAlreadyExists(givenEmail) {
   logger.debug(`ENTER users.emailAlreadyExists, email: ${givenEmail}`);
   // Dump users into an array for the find function.
@@ -56,6 +70,15 @@ function emailAlreadyExists(givenEmail) {
   return (typeof (result) === 'object');
 }
 
+
+/**
+ * Adds a new user.
+ * @param {string} newEmail - user email
+ * @param {string} firstName - user first name
+ * @param {string} lastName - user last name
+ * @param {string} password - user password
+ * @returns {object} with property ret is 'ok' or 'failed'
+ */
 function addUser(newEmail, firstName, lastName, password) {
   logger.debug('ENTER users.addUser');
   let ret;

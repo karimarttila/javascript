@@ -23,5 +23,3 @@ logger.debug('******* THIRD ************');
 const users3 = JSON.parse(JSON.stringify(myUsers.getUsers()));
 logger.debug(users3);
 logger.debug('******* FOURTH ************');
-
-

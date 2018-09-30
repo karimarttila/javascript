@@ -11,10 +11,12 @@ const port = process.env.SS_PORT || 4045;
 /**
  * A very simple validator: just check that no item in the list is empty.
  * @param {list} myList - the list of parameters
+ * @returns {boolean} - true if parameters ok, false otherwise
  */
 function validateParameters(myList) {
   return !myList.some(item => ((item === null) || (item === undefined) || (item === '')));
 }
+
 
 // ***** Route functions start.
 
@@ -30,11 +32,12 @@ function getIndexPage(req, res) {
   logger.debug('EXIT server.getIndexPage');
 }
 
+
 /**
- * Processes GET/info
+ * Processes GET/info.
  * @param {object} req http request
  * @param {object} res http response
- * @returns {object} with info field
+ * @returns {object} - info
  */
 function getInfo(req, res) {
   logger.debug('ENTER server.getInfo');
@@ -42,12 +45,13 @@ function getInfo(req, res) {
   logger.debug('EXIT server.getInfo');
 }
 
+
 /**
  * Processes POST/signin.
  * Validates parameters, then calls users service to add new user.
  * @param {object} req http request
  * @param {object} res http response
- * @returns {object} with return information regarding success/failure
+ * @returns {object} - ret property true or false
  */
 function postSignin(req, res) {
   logger.debug('ENTER server.postSignin');
@@ -66,9 +70,11 @@ function postSignin(req, res) {
 
 // ***** Route functions end.
 
+
 /**
  * Initializes the web server.
- * @returns {object} web server instance
+ * Starts listening API calls.
+ * @returns {object} Web server instance
  */
 function initWebServer() {
   logger.debug('ENTER server.initWebServer');
@@ -92,11 +98,13 @@ function initWebServer() {
   return myWebServer;
 }
 
+
 const webServer = initWebServer();
 
+
 /**
- * Gets the web server instance
- * @returns {object} web server instance
+ * Gets the web server instance.
+ * @returns {object} Web server instance
  */
 function getWebServer() {
   return webServer;

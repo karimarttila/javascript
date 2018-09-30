@@ -19,7 +19,9 @@
     "cors": "^2.8.4",
     "debug": "^4.0.1",
     "express": "^4.16.3",
+    "fs": "0.0.1-security",
     "morgan": "^1.9.1",
+    "papaparse": "^4.6.0",
     "simple-node-logger": "^0.93.40",
     "string-hash": "^1.1.3"
   },
