@@ -78,7 +78,7 @@ function postSignin(req, res) {
  */
 function initWebServer() {
   logger.debug('ENTER server.initWebServer');
-  const myWebServer = express();
+  let myWebServer = express();
   myWebServer.use(cors());
   myWebServer.use(bodyParser.urlencoded({ extended: true }));
   myWebServer.use(bodyParser.json());
@@ -90,7 +90,7 @@ function initWebServer() {
   myWebServer.post('/signin', (req, res) => postSignin(req, res));
 
   // Start listening.
-  myWebServer.listen(port, () => {
+  myWebServer = myWebServer.listen(port, () => {
     logger.debug(`listening on port ${port}`);
   });
 

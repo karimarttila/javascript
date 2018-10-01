@@ -25,6 +25,7 @@
   - [Tooling](#tooling)
   - [REPL](#repl)
   - [Developer Productivity](#developer-productivity)
+  - [Testing](#testing)
   - [Javascript as a Language](#javascript-as-a-language)
   - [Javascript / Node vs. Clojure / JVM](#javascript--node-vs-clojure--jvm)
   - [Javascript vs. Python](#javascript-vs-python)
@@ -235,6 +236,20 @@ I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is som
 Productivity with Javascript and Node with npm and Visual Studio Code is pretty good. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And now with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
 
 Nodemon made the cycle of experimenting and developing the API real fast. 
+
+## Testing
+
+Testing is the area where Node really shines. I have never seen a web server starting so blazingly fast in API testing, and also shutting down after tests. Just look at the [server.js](test/webserver/server.js) - before and after functions and try to run 'npm test' - damn, it's fast. 
+
+```bash
+2018-10-01 20:06:36.555 DEBUG Before tests start the webserver...
+2018-10-01 20:06:36.569 DEBUG ENTER server.getInfo
+2018-10-01 20:06:36.571 DEBUG EXIT server.getInfo
+      ✓ respond with json
+2018-10-01 20:06:36.576 DEBUG After tests shutdown the webserver...
+```
+
+Some 15 ms and Express server was up and ready for testing...
 
 ## Javascript as a Language
 

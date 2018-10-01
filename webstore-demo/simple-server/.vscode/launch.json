@@ -19,7 +19,7 @@
     {
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",      
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "args": ["test/userdb/users.js", "--no-timeouts"],
       "name": "Users-test",
       "stopOnEntry": false,
@@ -30,9 +30,20 @@
     {
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",      
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "args": ["test/domaindb/domain.js", "--no-timeouts"],
       "name": "Domain-test",
+      "stopOnEntry": false,
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": null,
+      "env": { "NODE_ENV": "testing"}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": ["test/webserver/server.js", "--no-timeouts"],
+      "name": "WebServer-test",
       "stopOnEntry": false,
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": null,
