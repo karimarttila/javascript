@@ -31,4 +31,33 @@ describe('Webserver module', function () {
         }, done);
     });
   });
+  describe('POST /signin', function () {
+    it('Successful POST: /signin', function (done) {
+      supertest(webServer)
+        .post('/signin')
+        .send({
+          'first-name': 'Jamppa', 'last-name': 'Jamppanen', email: 'jamppa.jamppanen@foo.com', password: 'Jamppa'
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, {
+          email: 'jamppa.jamppanen@foo.com',
+          ret: 'ok'
+        }, done);
+    });
+    it('Unsuccessful POST: /signin (same email again)', function (done) {
+      supertest(webServer)
+        .post('/signin')
+        .send({
+          'first-name': 'Jamppa', 'last-name': 'Jamppanen', email: 'jamppa.jamppanen@foo.com', password: 'Jamppa'
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400, {
+          email: 'jamppa.jamppanen@foo.com',
+          msg: 'Email already exists',
+          ret: 'failed'
+        }, done);
+    });
+  });
 });

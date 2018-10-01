@@ -169,7 +169,9 @@ I also managed to configure my [launch.json](launch.json) after some googling so
 
 # Testing
 
-The assert Node module is pretty good. Creating tests with it is really simple and readability of the tests is good. Node is also lightning fast to start running the tests. E.g. you don't run the tests in the terminal in Clojure since it takes rather long time to load JVM, Clojure classes etc before the tests actually gets to run - in development you run the tests in the IDE where JVM and Clojure is already loaded. But in Node you can easily run the tests in terminal over and over again - the startup time is really fast.
+I was pretty satisfied how clear and simple testing in Node was.
+
+The [assert](https://nodejs.org/api/assert.html) Node module is pretty good. Creating tests with it is really simple and readability of the tests is good. Node is also lightning fast to start running the tests. E.g. you don't run the tests in the terminal in Clojure since it takes rather long time to load JVM, Clojure classes etc before the tests actually gets to run - in development you run the tests in the IDE where JVM and Clojure is already loaded. But in Node you can easily run the tests in terminal over and over again - the startup time is really fast.
 
 ```bash
 time npm test
@@ -177,6 +179,10 @@ time npm test
 13 passing (16ms)
 real	0m0.407s
 ```
+
+For checking object equality I used [underscore](https://underscorejs.org/) library.
+
+For webserver API calls I used [supertest](https://github.com/visionmedia/supertest) which is just excellent for checking http return values, returned body etc. It was also pretty simple to create before/after functions to start/shutdown the Express server before/after API testing. And here Node really shines: starting Express server for testing is lightning fast. 
 
 # CORS Issues
 
