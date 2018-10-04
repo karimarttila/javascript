@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const loggerFactory = require('../util/logger');
 const usersService = require('../userdb/users');
+const sessionService = require('./session');
 
 const logger = loggerFactory();
 
@@ -51,7 +52,7 @@ function getInfo(req, res) {
  * Validates parameters, then calls users service to add new user.
  * @param {object} req http request
  * @param {object} res http response
- * @returns {object} - ret property true or false
+ * @returns {object} - ret property 'ok' or 'failed'
  */
 function postSignin(req, res) {
   logger.debug('ENTER server.postSignin');
@@ -66,6 +67,43 @@ function postSignin(req, res) {
   const responseStatus = responseValue.ret === 'ok' ? 200 : 400;
   res.status(responseStatus).json(responseValue);
   logger.debug('EXIT server.postSignin');
+}
+
+
+/**
+ * Processes POST/login.
+ * Validates parameters, checks credentials, and if credentials ok
+ * then creates JSON web token.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} - ret property 'ok' or 'failed'
+ */
+function postLogin(req, res) {
+  logger.debug('ENTER server.postLogin');
+  const myEmail = req.body.email;
+  const myPassword = req.body.password;
+  const validationPassed = validateParameters([myEmail, myPassword]);
+  let responseValue = null;
+  if (!validationPassed) {
+    responseValue = { ret: 'failed', msg: 'Validation failed - some fields were empty' };
+  }
+  else {
+    const credentialsOk = usersService.checkCredentials(myEmail, myPassword);
+    if (!credentialsOk) {
+      responseValue = {
+        ret: 'failed',
+        msg: 'Credentials are not good - either email or password is not correct'
+      };
+    }
+    else {
+      const jsonWebToken = sessionService.createJsonWebtoken(myEmail);
+      responseValue = { ret: 'ok', msg: 'Credentials ok', 'json-web-token': jsonWebToken };
+    }
+  }
+
+  const responseStatus = responseValue.ret === 'ok' ? 200 : 400;
+  res.status(responseStatus).json(responseValue);
+  logger.debug('EXIT server.postLogin');
 }
 
 // ***** Route functions end.
@@ -88,6 +126,7 @@ function initWebServer() {
   myWebServer.get('/', (req, res) => getIndexPage(req, res));
   myWebServer.get('/info', (req, res) => getInfo(req, res));
   myWebServer.post('/signin', (req, res) => postSignin(req, res));
+  myWebServer.post('/login', (req, res) => postLogin(req, res));
 
   // Start listening.
   myWebServer = myWebServer.listen(port, () => {

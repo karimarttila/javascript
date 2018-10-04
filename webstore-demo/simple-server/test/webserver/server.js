@@ -1,4 +1,6 @@
 const supertest = require('supertest');
+const assert = require('assert');
+
 const webServerFactory = require('../../src/webserver/server');
 const loggerFactory = require('../../src/util/logger');
 
@@ -58,6 +60,39 @@ describe('Webserver module', function () {
           msg: 'Email already exists',
           ret: 'failed'
         }, done);
+    });
+    it('Successful POST: /login', function (done) {
+      supertest(webServer)
+        .post('/login')
+        .send({
+          'first-name': 'Kari', 'last-name': 'Karttinen', email: 'kari.karttinen@foo.com', password: 'Kari'
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          // Test that we got something for json-web-token.
+          assert.equal(response.body['json-web-token'].length > 20, true);
+          assert.equal(response.body.ret, 'ok');
+          assert.equal(response.body.msg, 'Credentials ok');
+          done();
+        });
+    });
+    it('Unsuccessful POST: /login', function (done) {
+      supertest(webServer)
+        .post('/login')
+        .send({
+          'first-name': 'Kari', 'last-name': 'Karttinen', email: 'kari.karttinen@foo.com', password: 'WRONG-PASSWORD'
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .then((response) => {
+          // Test that we got something for json-web-token.
+          assert.equal(response.body.ret, 'failed');
+          assert.equal(response.body.msg, 'Credentials are not good - either email or password is not correct');
+          done();
+        });
     });
   });
 });

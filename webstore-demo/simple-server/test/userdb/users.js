@@ -51,4 +51,14 @@ describe('UserDB module', function () {
       assert.equal(Object.keys(newUsers2).length, 4);
     });
   });
+  describe('Check user credentials', function () {
+    const retOk = myUsers.checkCredentials('kari.karttinen@foo.com', 'Kari');
+    const retNotOk = myUsers.checkCredentials('kari.karttinen@foo.com', 'WRONG-PASSWORD');
+    it('User credentials ok for valid credentials', function () {
+      assert.equal(retOk, true);
+    });
+    it('User credentials not ok for non-valid credentials', function () {
+      assert.equal(retNotOk, false);
+    });
+  });
 });

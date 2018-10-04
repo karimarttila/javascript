@@ -20,8 +20,11 @@
     "debug": "^4.0.1",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.3.0",
     "morgan": "^1.9.1",
     "papaparse": "^4.6.0",
+    "properties-reader": "0.0.16",
+    "randomstring": "^1.1.5",
     "simple-node-logger": "^0.93.40",
     "string-hash": "^1.1.3"
   },

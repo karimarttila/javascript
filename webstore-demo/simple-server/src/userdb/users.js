@@ -11,21 +11,21 @@ const users = {
     email: 'kari.karttinen@foo.com',
     first_name: 'Kari',
     last_name: 'Karttinen',
-    hashed_password: '1340477763',
+    hashed_password: '2087856692',
   },
   2: {
     userid: '2',
     email: 'timo.tillinen@foo.com',
     first_name: 'Timo',
     last_name: 'Tillinen',
-    hashed_password: '-36072128',
+    hashed_password: '2087903674',
   },
   3: {
     userid: '3',
     email: 'erkka.erkkila@foo.com',
     first_name: 'Erkka',
     last_name: 'Erkkilä',
-    hashed_password: '1655387230',
+    hashed_password: '170251027',
   },
 };
 
@@ -104,4 +104,23 @@ function addUser(newEmail, firstName, lastName, password) {
   return ret;
 }
 
-module.exports = { getUsers, addUser, emailAlreadyExists };
+
+/**
+ * Checks credentials.
+ * @param {string} userEmail - user email
+ * @param {string} userPassword - user password
+ * @returns {boolean} true - credentials ok, false otherwise
+ */
+function checkCredentials(userEmail, userPassword) {
+  logger.debug('ENTER users.checkCredentials');
+  const hashedPassword = (stringHash(userPassword)).toString();
+  const foundUser = Object.values(users)
+    .find(user => user.email === userEmail
+      && user.hashed_password === hashedPassword);
+  const ret = (!((foundUser === undefined) || (foundUser === null)));
+  logger.debug('EXIT users.checkCredentials');
+  return ret;
+}
+
+/* eslint-disable object-curly-newline */
+module.exports = { getUsers, addUser, emailAlreadyExists, checkCredentials };
