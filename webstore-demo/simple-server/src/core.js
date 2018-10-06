@@ -7,4 +7,4 @@ logger.debug('ENTER core');
 
 // Start the web server.
 /* eslint-disable no-unused-vars */
-const webServer = webServerFactory();
+const webServer = webServerFactory.getWebServer();

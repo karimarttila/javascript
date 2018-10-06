@@ -32,7 +32,6 @@
   - [Javascript and Node - Is There a Place in My Toolbox for Them?](#javascript-and-node---is-there-a-place-in-my-toolbox-for-them)
 
 
-
 # Introduction
 
 This Simple Server is implemented using Javascript and Node. The functionality of the Simple Server is basically the same as in [Clojure Simple Server](https://github.com/karimarttila/clojure/tree/master/clj-ring-cljs-reagent-demo/simple-server) that I implemented earlier using Clojure (the rationale being to learn Clojure and how to implement a REST server using Clojure). Therefore, the rationale for this Javascript / Node Simple Server is to learn Javascript and Node and how to implement a REST server using those technologies.
@@ -42,15 +41,15 @@ So, the idea is to replicate the API of the previous Simple Server implemented i
 I also try to replicate the Clojure namespace structure to the equivalent Node structures so that it is easy to compare various parts of the application (e.g. [core.js](src/core.js) - [core.clj](https://github.com/karimarttila/clojure/blob/master/clj-ring-cljs-reagent-demo/simple-server/src/simpleserver/core.clj))
 
 
-
-
 # Technical Description
 
 Simple Server is implemented using [Javascript](https://developer.mozilla.org/bm/docs/Web/JavaScript) and [Node](https://nodejs.org/en/).
 
+
 # Disclaimer
 
 This is not a top-class example how to implement a REST server using Javascript / Node. This server is my first real Javascript / Node project and I implemented it just for learning purposes. Therefore a seasoned Javascript / Node developer surely finds a lot of issues in the code that could have been implemented in a more efficient way.
+
 
 # Node Development
 
@@ -63,6 +62,7 @@ These are Visual Studio Code extensions that I found useful while working with t
 - Emacs Friendly Keymap - Yes, I use emacs keymap in all of my editors.
 - ESLint - A Javascript linter.
 - Markdown All in One - An excellent extension while working with md files (like this one).
+
 
 ## Basic Tools - Nvm, Npm and Node
 
@@ -90,6 +90,7 @@ See [npm docs](https://docs.npmjs.com/) for more information how to use npm.
 
 If you have cloned this repository you can install all these packages using command "npm install" (which reads the [package.json](package.json) file and installs everything there).
 
+
 ## Static Code Analysis - ESLint
 
 There are a few linters in the Javascript world. I used [ESLint](https://eslint.org) with [Airbnb Style Guide](https://github.com/airbnb/javascript) which was recommended e.g. in one Pluralsight Javascript/Node tutorial.
@@ -113,6 +114,7 @@ Run unit tests with command: "npm test".
 
 Mocha was a real suprise to be used with Javascript/Node - must be one of the easiest and intuitive unit testing frameworks I have ever used.
 
+
 ## Command Line
 
 TODO:
@@ -125,7 +127,6 @@ TODO
 ## Hot Code Reloading
 
 TODO:
-
 
 
 ## Node REPL
@@ -161,11 +162,13 @@ When comparing Node and Clojure REPLs, Clojure wins this round hands down. The L
 
 But since we have to use the Node REPL when implementing Node application I really would like to learn how to use the Node REPL in a more efficient way. E.g. to reload modules etc.
 
+
 ## Visual Studio Debugger
 
 Visual Studio Debugger is pretty nice. I experimented that you can easily debug a module by adding the function you want to debug at the end of the module and start the module in debugger. Breakpoints etc. work as in other languages / IDEs. But afterall a poor substitute for a live Lisp REPL.
 
 I also managed to configure my [launch.json](launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff. 
+
 
 # Testing
 
@@ -184,6 +187,7 @@ For checking object equality I used [underscore](https://underscorejs.org/) libr
 
 For webserver API calls I used [supertest](https://github.com/visionmedia/supertest) which is just excellent for checking http return values, returned body etc. It was also pretty simple to create before/after functions to start/shutdown the Express server before/after API testing. And here Node really shines: starting Express server for testing is lightning fast. 
 
+
 # CORS Issues
 
 TODO.
@@ -193,13 +197,16 @@ TODO.
 
 TODO.
 
+
 ## Simple Frontend
 
 TODO.
 
+
 # Session Handling
 
 TODO.
+
 
 # Building for Production
 
@@ -209,7 +216,9 @@ Run:
 TODO.
 ```
 
+
 # Conclusions
+
 
 ## Javascript Syntax
 
@@ -221,20 +230,22 @@ BTW. Now I understand why linters are more or less a mandatory part of Javascrip
 
 And of course there is the division between statically typed (Java)and dynamically typed languages (Python, Clojure, Javascript) (see more e.g. in [wiki](https://en.wikipedia.org/wiki/Type_system)). In an enterprise type of software where there is a huge code base and tens of developers working on the code base on the same time the statically typed language protects developers quite a lot (not to speak about the good tooling that IDEs can provide based on static types). But for microservices and personal hacks dynamically typed languages beats statically typed languages hands down in developer productivity.
 
+
 ## Learning Curve
 
 The learning curve for Javascript / Node was very gentle - you can learn the basic stuff of Javascript and Node in a couple of days and then be productive and start implementing e.g. a REST server just like I did in this exercise. The learning curve of Clojure was a lot steeper even though I used Scheme one year at the Helsinki University of Technology back in the 90's. I believe that the learning curve for Java is also a lot steeper. The basic stuff in Javascript is pretty simple and you can be productive also with the basic stuff and learn more on the fly when working in a real project. This is a good thing - a language should be easy, so that you can learn the basic stuff in a couple of days and then start working with the real thing and learn more when you need it. 
 
 Why did I want to learn Clojure then if the learning curve is so steep? Well, it was more about an intellectual challenge. Learning and using Lisp changes the way you think and [makes you a better programmer](https://www.quora.com/Ive-heard-that-Lisp-makes-you-a-better-programmer-What-is-it-about-Lisp-that-strengthens-your-programming-skills). This is actually something I'd like to learn more in my Javascript / Node quest: how to use Javascript with immutable and functional programming paradigm? I also heard that Javascript is [a Lisp in C's clothing](https://www.crockford.com/javascript/javascript.html). Maybe after learning the basic stuff in Javascript I start to learn to use it in a more functional way. 
 
+
 ## Tooling
 
 Node comes with npm which provides good tooling for the Node development. Visual Studio Code especially was a delightful suprise with its debugger and terminal.
 
+
 ## REPL
 
 I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is something that is absolutely impossible to explain to another developer who has never done real stuff with a Lisp and and never used a Lisp REPL. IDEA / Cursive REPL is just the most productive development environment I have ever used. Using a Lisp REPL makes your program like an organic entity which grows with you experimenting with it using the REPL. The Node REPL is just fine but nothing compared to a real Lisp REPL.
-
 
 
 ## Developer Productivity
@@ -242,6 +253,7 @@ I must once again emphasize the power of the Lisp REPLs. A real Lisp REPL is som
 Productivity with Javascript and Node with npm and Visual Studio Code is pretty good. When I started this unholy quest in the Node land some younger developers told me that "you don't use IDEs with Javascript". Now I must say that I don't agree with that statement - Visual Studio Code with its code highlighting, good linter integration, extensions, debugger and terminal and everything else is as good an IDE as e.g. [PyCharm](https://www.jetbrains.com/pycharm/) which I use with Python hacking. And now with my Emacs keymap and favorite hot keys Visual Studio Code works pretty much the same way as my PyCharm and IntelliJ IDEA.
 
 Nodemon made the cycle of experimenting and developing the API real fast. 
+
 
 ## Testing
 
@@ -257,9 +269,14 @@ Testing is the area where Node really shines. I have never seen a web server sta
 
 Some 15 ms and Express server was up and ready for testing...
 
+
 ## Javascript as a Language
 
 Javascript as a language is not bad at all. The productivity is pretty good since the entry barrier to the language is really slow: you can learn the basic stuff in a couple of days and start implementing a web server with an API. And surely with time you can learn more idiomatic ways to use Javascript and become more efficient Javascript developer.
+
+The more I programmed Javascript the more I began to like the programming model: you create functions which create/manipulate data (JSON objects, lists etc.). Functions are first-class citizens and data model (JSON) is simple. The programming model is actually a bit like in Clojure (functions that manipulate data, in Clojure data is also intuitive and clear). Actually, the more I program Clojure, Javascript and Python the more I begin to loathe Java and its unholy mess of classes mixing methods and instance variables, some of which hold data and some of which hold instances of other classes. Java and its static typing has its places. Static typing provides excellent tooling for IDEs and protects developers in big projects to make trivial mistakes assuming something about parameters and return values. But in smaller projects I would rather use a language which gives a shorter development feedback cycle.
+
+
 
 ## Javascript / Node vs. Clojure / JVM
 

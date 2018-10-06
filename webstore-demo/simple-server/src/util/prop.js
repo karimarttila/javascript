@@ -13,7 +13,7 @@ const properties = PropertiesReader('resources/simpleserver.properties');
 function getIntValue(key) {
   logger.debug('ENTER prop.getIntValue');
   const value = parseInt(properties.get(key), 10);
-  logger.debug('ENTER prop.getIntValue');
+  logger.debug('EXIT prop.getIntValue');
   return value;
 }
 
@@ -25,7 +25,7 @@ function getIntValue(key) {
 function getStringValue(key) {
   logger.debug('ENTER prop.getStringValue');
   const value = properties.get(key);
-  logger.debug('ENTER prop.getStringValue');
+  logger.debug('EXIT prop.getStringValue');
   return value;
 }
 

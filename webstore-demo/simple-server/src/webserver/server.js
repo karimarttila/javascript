@@ -4,10 +4,14 @@ const bodyParser = require('body-parser');
 const loggerFactory = require('../util/logger');
 const usersService = require('../userdb/users');
 const sessionService = require('./session');
+const prop = require('../util/prop');
+const domain = require('../domaindb/domain');
 
 const logger = loggerFactory();
 
-const port = process.env.SS_PORT || 4045;
+const propPort = prop.getIntValue('port');
+const port = process.env.SS_PORT || propPort;
+
 
 /**
  * A very simple validator: just check that no item in the list is empty.
@@ -82,6 +86,8 @@ function postLogin(req, res) {
   logger.debug('ENTER server.postLogin');
   const myEmail = req.body.email;
   const myPassword = req.body.password;
+  logger.trace(`myEmail: ${myEmail}`);
+  logger.trace(`myPassword: ${myPassword}`);
   const validationPassed = validateParameters([myEmail, myPassword]);
   let responseValue = null;
   if (!validationPassed) {
@@ -106,6 +112,21 @@ function postLogin(req, res) {
   logger.debug('EXIT server.postLogin');
 }
 
+
+/**
+ * Get the product groups object.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} - ret property 'ok' or 'failed'
+ */
+function getProductGroups(req, res) {
+  logger.debug('ENTER server.getProductGroups');
+  const productGroups = domain.getProductGroups();
+  res.status(200).json(productGroups);
+  logger.debug('EXIT server.getProductGroups');
+}
+
+
 // ***** Route functions end.
 
 
@@ -127,6 +148,7 @@ function initWebServer() {
   myWebServer.get('/info', (req, res) => getInfo(req, res));
   myWebServer.post('/signin', (req, res) => postSignin(req, res));
   myWebServer.post('/login', (req, res) => postLogin(req, res));
+  myWebServer.get('/product-groups', (req, res) => getProductGroups(req, res));
 
   // Start listening.
   myWebServer = myWebServer.listen(port, () => {
@@ -149,4 +171,6 @@ function getWebServer() {
   return webServer;
 }
 
-module.exports = getWebServer;
+
+/* eslint-disable object-curly-newline */
+module.exports = { getWebServer };

@@ -35,6 +35,7 @@
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
+    "request": "^2.88.0",
     "supertest": "^3.3.0",
     "underscore": "^1.9.1"
   }
