@@ -21,6 +21,7 @@
 - [Building for Production](#building-for-production)
 - [Conclusions](#conclusions)
   - [Javascript Syntax](#javascript-syntax)
+  - [Asynchronous Programming Model](#asynchronous-programming-model)
   - [Learning Curve](#learning-curve)
   - [Tooling](#tooling)
   - [REPL](#repl)
@@ -230,6 +231,13 @@ BTW. Now I understand why linters are more or less a mandatory part of Javascrip
 
 And of course there is the division between statically typed (Java)and dynamically typed languages (Python, Clojure, Javascript) (see more e.g. in [wiki](https://en.wikipedia.org/wiki/Type_system)). In an enterprise type of software where there is a huge code base and tens of developers working on the code base on the same time the statically typed language protects developers quite a lot (not to speak about the good tooling that IDEs can provide based on static types). But for microservices and personal hacks dynamically typed languages beats statically typed languages hands down in developer productivity.
 
+## Asynchronous Programming Model
+
+The asynchronous programming model actually hit me hard only once. When I needed the web token in the [server.js](test/webserver/server.js) I first couldn't figure out how to get the json web token returned from the request function (e.g. couldn't assign it to a variable in the outer scope). I pretty fast realized that this is the Javascript asynchronous programming model - the outer scope had run already before the asynchronous request part was ready - outer scope variable was undefined even though I tried to assign the value to it in the request function. Some googling and I figured out how to handle the asynchronous request using [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). 
+
+The asynchronous programming model makes certain things a little bit tricky but I understand that in earlier ES versions it was even more tricky - something they called ["callback hell"](http://callbackhell.com/). I'm using node 10.10, so there is Promises and async/await in this version which makes things a lot simpler. 
+
+The asynchronous programming model makes Node super fast in certain non-cpu-intensive tasks, so there are benefits to balance the a bit more complex programming model, see more [here](https://nodejs.org/en/about/).
 
 ## Learning Curve
 

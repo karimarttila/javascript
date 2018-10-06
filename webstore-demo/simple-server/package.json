@@ -36,6 +36,7 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
     "request": "^2.88.0",
+    "sleep": "^5.2.3",
     "supertest": "^3.3.0",
     "underscore": "^1.9.1"
   }

@@ -33,18 +33,45 @@ function createJsonWebtoken(userEmail) {
 }
 
 /**
- * Validates the given Json web token.
+ * Validates the token. Returns {:email :exp} from token if session ok, nil otherwise.
+  Token validation has two parts:
+  1. Check that we actually created the token in the first place (should find it in my-sessions set.
+  2. Validate the actual token (can unsign it, token is not expired)."
  * @param {string} jwt
- * @return {object} object with email and exp fields if ok, null otherwise
+ * @return {object} object {:email :exp} if ok, null otherwise
  */
 function validateJsonWebToken(jwt) {
   logger.debug('ENTER session.validateJsonWebToken');
-  const payload = jsonwebtoken.verify(jwt, mySecret);
-  logger.trace('Got payload: ', payload);
-  const { exp: myExp, data: myData } = payload;
-  const { email: myEmail } = myData;
+  let ret;
+  // Validation #1.
+  const found = mySessions.has(jwt);
+  if (!found) {
+    logger.warn('Token not found in my sessions - unknown token: ', jwt);
+    ret = null;
+  }
+  // Validatioin #2.
+  else {
+    try {
+      const payload = jsonwebtoken.verify(jwt, mySecret);
+      logger.trace('Got payload: ', payload);
+      const { exp: myExp, data: myData } = payload;
+      const { email: myEmail } = myData;
+      ret = { exp: myExp, email: myEmail };
+      logger.trace('Validated token, returning: ', ret);
+    }
+    catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        // Expired or some other error
+        logger.warn('Token is expired, removing it from my sessions and returning nil: ', jwt);
+      }
+      else {
+        logger.error('Some error in session handling: ', err);
+      }
+    }
+  }
+
   logger.debug('EXIT session.validateJsonWebToken');
-  return { exp: myExp, email: myEmail };
+  return ret;
 }
 
 /* eslint-disable object-curly-newline */
