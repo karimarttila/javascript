@@ -1,6 +1,8 @@
 const supertest = require('supertest');
 const assert = require('assert');
+const us = require('underscore');
 const request = require('request');
+const btoa = require('btoa');
 
 const webServerFactory = require('../../src/webserver/server');
 const loggerFactory = require('../../src/util/logger');
@@ -20,6 +22,12 @@ function getJsonWebToken() {
     email: 'kari.karttinen@foo.com', password: 'Kari'
   };
 
+  // Promise example.
+  // Needs to be done this way since you cannot create one
+  // function and return the jwt since the code gets run
+  // before async post returns the body. I.e. if you
+  // try to assign jwt outer scope variable, that variable
+  // will be undefined.
   return new Promise(((resolve, reject) => {
     request.post({ url: myUrl, json: myData },
       (err, res, body) => {
@@ -35,6 +43,14 @@ function getJsonWebToken() {
   }));
 }
 
+function createAuthStr(jwt) {
+  logger.debug('ENTER createAuthStr');
+  const token = `${jwt}:NOT`;
+  const encodedToken = btoa(token);
+  const authStr = `Basic ${encodedToken}`;
+  logger.debug('EXIT createAuthStr');
+  return authStr;
+}
 
 // See: https://mochajs.org/#arrow-functions
 /* eslint-env mocha */
@@ -126,21 +142,88 @@ describe('Webserver module', function () {
   describe('GET /product-groups', function () {
     let jwt;
     it('Get Json web token', async () => {
+      // Async example in which we wait for the Promise to be
+      // ready (that i.e. the post to get jwt has been processed).
       const jsonWebToken = await getJsonWebToken();
       logger.trace('Got jsonWebToken: ', jsonWebToken);
       assert.equal(jsonWebToken.length > 20, true);
       jwt = jsonWebToken;
     });
-    it('Successful GET: /product-groups ', function (done) {
+    it('Successful GET: /product-groups', function (done) {
       logger.trace('Using jwt: ', jwt);
+      const authStr = createAuthStr(jwt);
       supertest(webServer)
         .get('/product-groups')
         .set('Accept', 'application/json')
+        .set('Authorization', authStr)
         .expect('Content-Type', /json/)
         .expect(200, {
           1: 'Books',
           2: 'Movies'
         }, done);
+    });
+  });
+  describe('GET /products', function () {
+    let jwt;
+    it('Get Json web token', async () => {
+      const jsonWebToken = await getJsonWebToken();
+      logger.trace('Got jsonWebToken: ', jsonWebToken);
+      assert.equal(jsonWebToken.length > 20, true);
+      jwt = jsonWebToken;
+    });
+    it('Successful GET: /products/1', function (done) {
+      logger.trace('Using jwt: ', jwt);
+      const authStr = createAuthStr(jwt);
+      supertest(webServer)
+        .get('/products/1')
+        .set('Accept', 'application/json')
+        .set('Authorization', authStr)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            logger.error('Error in test: ', err);
+            done(err);
+          }
+          else {
+            const myBody = res.body;
+            logger.trace('Products count: ', myBody.length);
+            assert((myBody.length === 35), true);
+            done();
+          }
+        });
+    });
+  });
+  describe('GET /product', function () {
+    let jwt;
+    it('Get Json web token', async () => {
+      const jsonWebToken = await getJsonWebToken();
+      logger.trace('Got jsonWebToken: ', jsonWebToken);
+      assert.equal(jsonWebToken.length > 20, true);
+      jwt = jsonWebToken;
+    });
+    it('Successful GET: /product/2/49 ', function (done) {
+      logger.trace('Using jwt: ', jwt);
+      const authStr = createAuthStr(jwt);
+      supertest(webServer)
+        .get('/product/2/49')
+        .set('Accept', 'application/json')
+        .set('Authorization', authStr)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            logger.error('Error in test: ', err);
+            done(err);
+          }
+          else {
+            const myBody = res.body;
+            logger.trace('Product: ', myBody);
+            // What a coincidence! The chosen movie is the best western of all times!
+            assert(us._.isEqual(myBody, ['49', '2', 'Once Upon a Time in the West', '14.4', 'Leone, Sergio', '1968', 'Italy-USA', 'Western']));
+            done();
+          }
+        });
     });
   });
 });

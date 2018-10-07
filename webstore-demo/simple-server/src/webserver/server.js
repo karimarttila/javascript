@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const atob = require('atob');
 const loggerFactory = require('../util/logger');
 const usersService = require('../userdb/users');
 const sessionService = require('./session');
@@ -22,6 +23,32 @@ function validateParameters(myList) {
   return !myList.some(item => ((item === null) || (item === undefined) || (item === '')));
 }
 
+
+/**
+ * Validates the Json web token in authorization header parameter.
+ * @param {string} auth - authorization header parameter
+ * @returns {object} object {:email :exp} if success, null otherwise
+ */
+function isValidToken(auth) {
+  logger.debug('ENTER server.isValidToken, auth: ', auth);
+  let ret;
+  if (auth === undefined) {
+    logger.warn('Authorization not found in the header parameters');
+    ret = null;
+  }
+  else {
+    const len = auth.length;
+    const rest = auth.substring(5, len);
+    const encoded = atob(rest);
+    logger.trace('encoded: ', encoded);
+    const index = encoded.indexOf(':NOT');
+    const token = encoded.substring(0, index);
+    logger.trace('token: ', token);
+    ret = sessionService.validateJsonWebToken(token);
+  }
+  logger.debug('EXIT server.isValidToken');
+  return ret;
+}
 
 // ***** Route functions start.
 
@@ -121,9 +148,76 @@ function postLogin(req, res) {
  */
 function getProductGroups(req, res) {
   logger.debug('ENTER server.getProductGroups');
-  const productGroups = domain.getProductGroups();
-  res.status(200).json(productGroups);
+  logger.trace('req.headers: ', req.headers);
+  const auth = req.headers.authorization;
+  const token = isValidToken(auth);
+  let ret;
+  let ok;
+  if (token === null) {
+    ret = { ret: 'failed', msg: 'Given token is not valid' };
+    ok = false;
+  }
+  else {
+    ret = domain.getProductGroups();
+    ok = true;
+  }
+  res.status((ok ? 200 : 400)).json(ret);
   logger.debug('EXIT server.getProductGroups');
+}
+
+
+/**
+ * Get the products list.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} - ret property 'ok' or 'failed'
+ */
+function getProducts(req, res) {
+  logger.debug('ENTER server.getProducts');
+  logger.trace('req.headers: ', req.headers);
+  const auth = req.headers.authorization;
+  const token = isValidToken(auth);
+  let ret;
+  let ok;
+  if (token === null) {
+    ret = { ret: 'failed', msg: 'Given token is not valid' };
+    ok = false;
+  }
+  else {
+    const { pgId: myPgId } = req.params;
+    ret = domain.getProducts(myPgId);
+    ok = true;
+  }
+  res.status((ok ? 200 : 400)).json(ret);
+  logger.debug('EXIT server.getProductGroups');
+}
+
+
+/**
+ * Get the product groups object.
+ * @param {object} req http request
+ * @param {object} res http response
+ * @returns {object} - ret property 'ok' or 'failed'
+ */
+function getProduct(req, res) {
+  logger.debug('ENTER server.getProduct');
+  logger.trace('req.headers: ', req.headers);
+  const auth = req.headers.authorization;
+  const token = isValidToken(auth);
+  let ret;
+  let ok;
+  if (token === null) {
+    ret = { ret: 'failed', msg: 'Given token is not valid' };
+    ok = false;
+  }
+  else {
+    const { pgId: myPgId } = req.params;
+    const { pId: myPid } = req.params;
+    ret = domain.getProduct(myPgId, myPid);
+    ok = true;
+  }
+  res.status((ok ? 200 : 400)).json(ret);
+  logger.debug('EXIT server.getProduct');
 }
 
 
@@ -149,6 +243,8 @@ function initWebServer() {
   myWebServer.post('/signin', (req, res) => postSignin(req, res));
   myWebServer.post('/login', (req, res) => postLogin(req, res));
   myWebServer.get('/product-groups', (req, res) => getProductGroups(req, res));
+  myWebServer.get('/products/:pgId', (req, res) => getProducts(req, res));
+  myWebServer.get('/product/:pgId/:pId', (req, res) => getProduct(req, res));
 
   // Start listening.
   myWebServer = myWebServer.listen(port, () => {

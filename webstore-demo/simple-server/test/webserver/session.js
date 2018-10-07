@@ -12,7 +12,7 @@ describe('Session module', function () {
   // Just check the expiration manually (maybe automate later).
   // Set simpleserver.properties: json-web-token-expiration-as-seconds=1
   // and checkExpiration value to true.
-  const checkExpiration = false; // Just manually.
+  const checkExpiration = false;
   let jwt;
   const testedEmail = 'kari.karttinen@foo.com';
   describe('Gets Json web token', function () {

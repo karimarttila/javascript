@@ -178,15 +178,73 @@ I was pretty satisfied how clear and simple testing in Node was.
 The [assert](https://nodejs.org/api/assert.html) Node module is pretty good. Creating tests with it is really simple and readability of the tests is good. Node is also lightning fast to start running the tests. E.g. you don't run the tests in the terminal in Clojure since it takes rather long time to load JVM, Clojure classes etc before the tests actually gets to run - in development you run the tests in the IDE where JVM and Clojure is already loaded. But in Node you can easily run the tests in terminal over and over again - the startup time is really fast.
 
 ```bash
-time npm test
-...
-13 passing (16ms)
-real	0m0.407s
+ 28 passing (82ms)
+real    0m0.634s
 ```
 
 For checking object equality I used [underscore](https://underscorejs.org/) library.
 
 For webserver API calls I used [supertest](https://github.com/visionmedia/supertest) which is just excellent for checking http return values, returned body etc. It was also pretty simple to create before/after functions to start/shutdown the Express server before/after API testing. And here Node really shines: starting Express server for testing is lightning fast. 
+
+The testing framework output is also pretty clear to read, e.g.:
+
+```bash
+SS_LOG_LEVEL=error npm test
+
+  DomainDB module
+    Should be two product groups in domain db
+      ✓ getProductGroups returns object with 2 items
+      ✓ getProductGroups second time (from cache), returns object with 2 items
+    Should be 35 products in product group 1 / domain db
+      ✓ getProducts for pg 1 returns list with 35 items
+      ✓ getProducts for pg 2 returns list with 400 items
+    Should find product for pgId=2 and pId=49 in domain db
+      ✓ getProduct for pgId 2 and pId 49 returns list with 8 items
+
+  UserDB module
+    Initially 3 users in db
+      ✓ getUsers returns 3
+    emailAlreadyExists for existing and non-existing email
+      ✓ Existing user should return true
+      ✓ Non-existing user should return false
+    Adding new user
+      ✓ getUsers returns 3
+      ✓ getUsers returns 4 after adding new user
+      ✓ Return value of adding new user is ok
+      ✓ Return value of adding new user twice is failed
+      ✓ getUsers returns still 4 after adding new user again
+    Check user credentials
+      ✓ User credentials ok for valid credentials
+      ✓ User credentials not ok for non-valid credentials
+
+  Webserver module
+    GET /info
+      ✓ Return the info message
+    POST /signin
+      ✓ Successful POST: /signin
+      ✓ Unsuccessful POST: /signin (same email again)
+    POST /signin
+      ✓ Successful POST: /login
+      ✓ Unsuccessful POST: /login
+    GET /product-groups
+      ✓ Get Json web token
+      ✓ Successful GET: /product-groups
+    GET /products
+      ✓ Get Json web token
+      ✓ Successful GET: /products/1
+    GET /product
+      ✓ Get Json web token
+      ✓ Successful GET: /product/2/49
+
+  Session module
+    Gets Json web token
+      ✓ jwt is longer than 20 chars
+    Validates Json web token
+      ✓ Got right email in jwt
+
+  28 passing (64ms)
+```
+
 
 
 # CORS Issues
@@ -277,6 +335,14 @@ Testing is the area where Node really shines. I have never seen a web server sta
 
 Some 15 ms and Express server was up and ready for testing...
 
+When I got implemented all tests it takes only some 620 ms to run all tests:
+
+```bash
+time SS_LOG_LEVEL=error npm test
+  28 passing (94ms)
+real    0m0.621s
+```
+
 
 ## Javascript as a Language
 
@@ -290,7 +356,7 @@ The more I programmed Javascript the more I began to like the programming model:
 
 Node is fast, that was my first observation. A short comparison running unit tests in Node vs Clojure/Lein/JVM:
 
-- Node npm/Mocha (time npm test): 0m0.403s
+- Node npm/Mocha (time npm test): 0m0.634s
 - Clojure Leiningen (time lein test): 0m2.605s
 
 I.e. Node starts immediately and run the tests. JVM boots very slowly, then loads Clojure jar, then loads project class files, then runs tests, and some 2,5 seconds of my precious time has been consumed that I will never get back in my life.

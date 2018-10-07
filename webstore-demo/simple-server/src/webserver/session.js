@@ -33,7 +33,7 @@ function createJsonWebtoken(userEmail) {
 }
 
 /**
- * Validates the token. Returns {:email :exp} from token if session ok, nil otherwise.
+ * Validates the token. Returns {:email :exp} from token if session ok, null otherwise.
   Token validation has two parts:
   1. Check that we actually created the token in the first place (should find it in my-sessions set.
   2. Validate the actual token (can unsign it, token is not expired)."

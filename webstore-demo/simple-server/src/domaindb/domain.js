@@ -23,7 +23,7 @@ function getProductGroups() {
     const obj = {};
     rows.map((row) => {
       if (row.length === 2) {
-        logger.trace(`row: ${JSON.stringify(row)}`);
+        // logger.trace(`row: ${JSON.stringify(row)}`);
         const [key, val] = row;
         obj[key] = val;
       }
@@ -51,7 +51,7 @@ function loadProducts(pgId) {
     const myRawProductsList = [];
     rows.map((row) => {
       if (row.length === 8) {
-        logger.trace(`row: ${JSON.stringify(row)}`);
+        // logger.trace(`row: ${JSON.stringify(row)}`);
         // Variable destructuring example.
         const [myPId, myPgId, myTitle, myPrice, myAuthor, myYear, myCountry, myLanguage] = row;
         myProductsList.push([myPId, myPgId, myTitle, myPrice]);
