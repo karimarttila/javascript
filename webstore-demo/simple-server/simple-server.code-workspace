@@ -9,5 +9,6 @@
       "*.dat": "csv (pipe)",
       "*.csv": "tsv"
     },
+    "markdown.extension.toc.githubCompatibility": true,
   }
 }
