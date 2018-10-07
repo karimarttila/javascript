@@ -158,8 +158,8 @@ describe('Webserver module', function () {
         .set('Authorization', authStr)
         .expect('Content-Type', /json/)
         .expect(200, {
-          1: 'Books',
-          2: 'Movies'
+          ret: 'ok',
+          'product-groups': { 1: 'Books', 2: 'Movies' }
         }, done);
     });
   });
@@ -187,8 +187,11 @@ describe('Webserver module', function () {
           }
           else {
             const myBody = res.body;
-            logger.trace('Products count: ', myBody.length);
-            assert((myBody.length === 35), true);
+            const myRet = myBody.ret;
+            const myProducts = myBody.products;
+            logger.trace('Products count: ', myProducts.length);
+            assert((myRet === 'ok'), true);
+            assert((myProducts.length === 35), true);
             done();
           }
         });
@@ -218,9 +221,14 @@ describe('Webserver module', function () {
           }
           else {
             const myBody = res.body;
-            logger.trace('Product: ', myBody);
+            logger.trace('myBody: ', myBody);
+            const myRet = myBody.ret;
+            const myProduct = myBody.product;
+            logger.trace('Got product: ', myProduct);
+            assert(us._.isEqual(myRet, 'ok'));
             // What a coincidence! The chosen movie is the best western of all times!
-            assert(us._.isEqual(myBody, ['49', '2', 'Once Upon a Time in the West', '14.4', 'Leone, Sergio', '1968', 'Italy-USA', 'Western']));
+            const rightProduct = ['49', '2', 'Once Upon a Time in the West', '14.4', 'Leone, Sergio', '1968', 'Italy-USA', 'Western'];
+            assert(us._.isEqual(myProduct, rightProduct));
             done();
           }
         });

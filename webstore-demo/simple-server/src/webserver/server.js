@@ -38,11 +38,20 @@ function isValidToken(auth) {
   }
   else {
     const len = auth.length;
+    // String 'Basic '
     const rest = auth.substring(5, len);
     const encoded = atob(rest);
     logger.trace('encoded: ', encoded);
     const index = encoded.indexOf(':NOT');
-    const token = encoded.substring(0, index);
+    let token;
+    // There was no ':NOT' part which is added in manual testing.
+    if (index === -1) {
+      token = encoded;
+    }
+    // There was ':NOT' part, strip it away.
+    else {
+      token = encoded.substring(0, index);
+    }
     logger.trace('token: ', token);
     ret = sessionService.validateJsonWebToken(token);
   }
@@ -158,7 +167,8 @@ function getProductGroups(req, res) {
     ok = false;
   }
   else {
-    ret = domain.getProductGroups();
+    const myProductGroups = domain.getProductGroups();
+    ret = { ret: 'ok', 'product-groups': myProductGroups };
     ok = true;
   }
   res.status((ok ? 200 : 400)).json(ret);
@@ -185,7 +195,9 @@ function getProducts(req, res) {
   }
   else {
     const { pgId: myPgId } = req.params;
-    ret = domain.getProducts(myPgId);
+    const myProducts = domain.getProducts(myPgId);
+    const myPgIdStr = `${myPgId}`;
+    ret = { ret: 'ok', 'pg-id': myPgIdStr, products: myProducts };
     ok = true;
   }
   res.status((ok ? 200 : 400)).json(ret);
@@ -213,7 +225,12 @@ function getProduct(req, res) {
   else {
     const { pgId: myPgId } = req.params;
     const { pId: myPid } = req.params;
-    ret = domain.getProduct(myPgId, myPid);
+    const myProduct = domain.getProduct(myPgId, myPid);
+    const myPgIdStr = `${myPgId}`;
+    const myPidStr = `${myPid}`;
+    ret = {
+      ret: 'ok', 'pg-id': myPgIdStr, 'p-id': myPidStr, product: myProduct
+    };
     ok = true;
   }
   res.status((ok ? 200 : 400)).json(ret);
