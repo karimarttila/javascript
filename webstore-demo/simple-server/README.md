@@ -14,6 +14,7 @@
   - [Hot Code Reloading](#hot-code-reloading)
   - [Node REPL](#node-repl)
   - [Visual Studio Debugger](#visual-studio-debugger)
+- [Documentation Generation](#documentation-generation)
 - [Testing](#testing)
 - [CORS](#cors)
 - [Simple Frontend](#simple-frontend)
@@ -44,6 +45,7 @@ So, the idea was to replicate the API of the previous Simple Server implemented 
 
 I also try to replicate the Clojure namespace structure to the equivalent Node structures so that it is easy to compare various parts of the application (e.g. [core.js](src/core.js) - [core.clj](https://github.com/karimarttila/clojure/blob/master/clj-ring-cljs-reagent-demo/simple-server/src/simpleserver/core.clj))
 
+I also wrote a bit more concise summary in my [Medium blog](https://medium.com/@kari.marttila/java-mans-unholy-quest-in-the-node-land-958e61da0451) compared to the longer text you can find here in this readme.md.
 
 ## Technical Description
 
@@ -114,7 +116,7 @@ I provided a short bash script to run eslint for src and test directories: "esli
 
 I googled which frameworks are the most popular unit testing frameworks to be used with Node and [Mocha](https://mochajs.org/) seemed to be the one. 
 
-See unit tests that I implemented as an excercise in the [test](./test) directory.
+See unit tests that I implemented as an exercise in the [test](./test) directory.
 
 Run unit tests with command: "npm test". Some examples:
 
@@ -147,7 +149,7 @@ SS_PORT=4045 SS_LOG_LEVEL=trace npm start
 
 Node REPL is pretty good, a bit like Python REPL, but not anything like a real Lisp REPL, of course. A couple of examples:
 
-Experimenting in REPL how to test if there are no nulls or empty srings in a list.:
+Experimenting in REPL how to test if there are no nulls or empty strings in a list:
 
 ```bash
 !['a', '', 'c'].some(item => ((item == null) || (item == undefined) || (item == '')) )
@@ -184,6 +186,14 @@ Visual Studio Debugger is pretty nice. I experimented that you can easily debug 
 I also managed to configure my [launch.json](.vscode/launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff.
 
 Overall feeling of the Visual Studio Debugger is that it is just as good as e.g. IntelliJ PyCharm (Python) debugger.
+
+## Documentation Generation
+
+You can easily generate the documentation with command: 
+
+```bash
+./node_modules/jsdoc/jsdoc.js -r src -d jsdoc-gen
+```
 
 
 ## Testing
@@ -323,7 +333,7 @@ The asynchronous programming model actually hit me hard only once. When I needed
 
 The asynchronous programming model makes certain things a little bit tricky but I understand that in earlier ES versions it was even trickier - something they called ["callback hell"](http://callbackhell.com/). I'm using node 10.10, so there are Promises and async/await in this version which make things a lot simpler. 
 
-The asynchronous programming model makes Node super fast in certain non-cpu-intensive tasks, so there are benefits to balance the a bit more complex programming model. See more [here](https://nodejs.org/en/about/).
+The asynchronous programming model makes Node super fast in certain non-cpu-intensive tasks, so there are benefits to balance the more complex programming model. See more [here](https://nodejs.org/en/about/).
 
 
 ### Learning Curve
@@ -381,9 +391,9 @@ This area is rather bad. The Javascript/Node error messages are at times almost 
 
 ### Javascript as a Language
 
-Javascript as a language is not bad at all. The productivity is pretty good since the entry barrier to the language is really slow: you can learn the basic stuff in a couple of days and start implementing a web server with an API. And surely with time you can learn more idiomatic ways to use Javascript and become more efficient Javascript developer.
+Javascript as a language is not bad at all. The productivity is pretty good since the entry barrier to the language is really easy: you can learn the basic stuff in a couple of days and start implementing a web server with an API. And surely with time you can learn more idiomatic ways to use Javascript and become more efficient Javascript developer.
 
-The more I programmed Javascript the more I began to like the programming model: you create functions which create/manipulate data (JSON objects, lists etc.). Functions are first-class citizens and data model (JSON) is simple. The programming model is actually a bit like in Clojure (functions that manipulate data, in Clojure data is also intuitive and clear). Actually, the more I program Clojure, Javascript and Python the more I begin to loathe Java and its unholy mess of classes mixing methods and instance variables, some of which hold data and some of which hold instances of other classes. Java and its static typing has its places. Static typing provides excellent tooling for IDEs and protects developers in big projects to make trivial mistakes assuming something about parameters and return values. But in smaller projects I would rather use a language which gives a shorter development feedback cycle.
+The more I programmed Javascript the more I began to like the programming model: you create functions which create/manipulate data (JSON objects, lists etc.). Functions are first-class citizens and data model (JSON) is simple. The programming model is actually a bit like in Clojure (functions that manipulate data, in Clojure data is also intuitive and clear). Actually, the more I program Clojure, Javascript and Python the more I begin to loathe Java and its unholy mess of classes mixing methods and instance variables, some of which hold data and some of which hold instances of other classes. Java and its static typing has its places. Static typing provides excellent tooling for IDEs and protects developers in big projects not to make trivial mistakes assuming something about parameters and return values. But in smaller projects I would rather use a language which gives a shorter development feedback cycle.
 
 
 ### Javascript / Node vs. Clojure / JVM
@@ -395,14 +405,14 @@ Node is fast, that was my first observation. A short comparison running unit tes
 
 I.e. Node starts immediately and runs the tests. JVM boots very, very slowly, then loads Clojure jar, then loads project class files, then runs tests, and some 2,5 seconds of my precious time has been consumed that I will never get back in my life.
 
-Well, this comparison doesn't tell the whole truth. With Clojure REPL you don't actually run the whole project at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
+Well, this comparison doesn't tell the whole truth. With Clojure REPL you don't actually run the whole project unit tests at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
 
 I'm not going to compare the Node / JVM performance differences in various scenarios since wiser men have already written quite a lot about it (e.g. [Speaking Intelligently about "Java vs Node" Performance](https://rclayton.silvrback.com/speaking-intelligently-about-java-vs-node-performance) ). But there is one thing that you should understand as a developer - the different paradigm how typical server implementations work in Node and JVM: Node handles all requests in one thread using event loop and JVM typically spins a new thread per request - both mechanisms have pros and cons.
 
 
 ### Javascript vs. Python
 
-I understand that younger developers who have learned Javascript when implementing frontends like to use Javascript with Node also in the backend side and use it as a scripting language with shells. That's perfectly ok. But I would say that there is a much better language to be used as a bash surrogate: [Python](https://www.python.org/). I have used Python some 20 years (read more in my [blog](https://medium.com/tieto-developers/python-rocks-5dc453b5c222)) and it really is an excellent scripting language. It is always very easy to hack something quick in Python even if you haven't used the language for several months. The syntax is just so easy and clean and intuitive (which you really can't say about Javascript). That might be the most important reason why I have never bothered to learn bash properly - you can always install python in any Linux box wih one yum/apt/whatever command and then hack the evil deed in Python and call the python script in the bash script.
+I understand that younger developers who have learned Javascript when implementing frontends like to use Javascript with Node also in the backend side and use it as a scripting language with shells. That's perfectly ok. But I would say that there is a much better language to be used as a bash surrogate: [Python](https://www.python.org/). I have used Python some 20 years (read more in my [blog](https://medium.com/tieto-developers/python-rocks-5dc453b5c222)) and it really is an excellent scripting language. It is always very easy to hack something quick in Python even if you haven't used the language for several months. The syntax is just so easy and clean and intuitive (which you really can't say about Javascript). That might be the most important reason why I have never bothered to learn bash properly - you can always install python in any Linux box with one yum/apt/whatever command and then hack the evil deed in Python and call the python script in the bash script.
 
 One example is the CSV processing. In the Python side this is pretty simple and there is one module which is quite ubiquitiously used. In the Node side there were quite a lot of various CSV modules and not all provided as clear API as in the Python side. 
 
@@ -416,6 +426,6 @@ One example is the CSV processing. In the Python side this is pretty simple and 
 
 ### What Next?
 
-I get bored easily, I think I leave the Node land at least for a while. And I have to recertify one AWS certification soon and make another certification in Azure, so there is plenty of other learning to do in the near future. After those efforts I thought that it might be a nice idea to implement the Simple Server in Java and Python just to compare the four languages with the same implementation: Java, Python, Clojure and Javascript. And perhaps I'm going to learn Go next and do the implemenation in Go as a Go exercise. 
+I get bored easily, I think I leave the Node land at least for a while. And I have to take one AWS recertification soon and make another certification in Azure, so there is plenty of other learning to do in the near future. After those efforts I thought that it might be a nice idea to implement the Simple Server in Java and Python just to compare the four languages with the same implementation: Java, Python, Clojure and Javascript. And perhaps I'm going to learn Go next and do the implementation in Go as a Go exercise. 
 
 Let's see if there are chances to use Javascript/Node in my future corporation projects. Time will tell. But at least for now I say goodbye to Node land.
