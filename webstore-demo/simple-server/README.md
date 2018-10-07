@@ -32,6 +32,7 @@
   - [Javascript / Node vs. Clojure / JVM](#javascript--node-vs-clojure--jvm)
   - [Javascript vs. Python](#javascript-vs-python)
   - [Javascript and Node - Is There a Place in My Toolbox for Them?](#javascript-and-node---is-there-a-place-in-my-toolbox-for-them)
+  - [What Next?](#what-next)
 
 ## Introduction
 
@@ -77,7 +78,7 @@ So, after installing nvm you can install the [Node](https://nodejs.org/en/) (and
 
 ### Npm installations
 
-This is a one time task and the local npm packages can be read in the [package.json](package.json) file (and the actual packages are in the [node_modules](node_modules) directory, of course). So, you don't have to do this part, I just documented these steps for myself. First create package.json using command "npm init".
+This is a one time task and the local npm packages can be read in the [package.json](package.json) file (and the actual packages are in the node_modules directory, of course, not in the Git repo, you need to install them yourself, see later). So, you don't have to do this part, I just documented these steps for myself. First create package.json using command "npm init".
 
 Then install the following packages using command "npm install <package>" --save".
 
@@ -180,7 +181,7 @@ But since we have to use the Node REPL when implementing Node application I real
 
 Visual Studio Debugger is pretty nice. I experimented that you can easily debug a module by adding the function you want to debug at the end of the module and start the module in debugger. Breakpoints etc. work as in other languages / IDEs. But afterall a poor substitute for a live Lisp REPL.
 
-I also managed to configure my [launch.json](launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff.
+I also managed to configure my [launch.json](.vscode/launch.json) after some googling so that I can debug my Mocha unit tests in Visual Studio Code debugger. The debugger worked nicely with breakpoints and all usual debugger stuff.
 
 Overall feeling of the Visual Studio Debugger is that it is just as good as e.g. IntelliJ PyCharm (Python) debugger.
 
@@ -263,7 +264,7 @@ SS_LOG_LEVEL=error npm test
 
 ## CORS
 
-I was a bit puzzled that there were no CORS issues. You just had to import the "cors" module and tell Express server to use it and that's it (compared to rather lengthy debugging session I had to spend in the Clojure side to get all CORS issues fixed):
+I was a bit puzzled that there were no CORS issues. You just had to import the [cors](https://github.com/expressjs/cors) module and tell Express server to use it and that's it (compared to rather lengthy debugging session I had to spend in the Clojure side to get all CORS issues fixed):
 
 ```javascript
 const cors = require('cors');
@@ -292,7 +293,7 @@ python -m SimpleHTTPServer
 
 Session handling is pretty straightforward, basically I just copied the idea from my previous Clojure version of the Simple Server.
 
-See [session.js](src/webserver/session.js) which has two public functions: createJsonWebtoken and validateJsonWebToken. The session validation between Simple Server and Simple Frontend is handled using [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token). In this Javascript/Node Simple Server version I used the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) library.
+See [session.js](src/webserver/session.js) which has two public functions: createJsonWebtoken and validateJsonWebToken. The session validation between Simple Server and Simple Frontend is handled using [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token). In this Javascript/Node Simple Server version I used the [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) library.
 
 
 ## Building for Production
@@ -336,7 +337,7 @@ This is actually something I'd like to learn more in my Javascript / Node quest:
 
 ### Tooling
 
-[Node](https://www.npmjs.com/) comes with npm which provides good tooling for the Node development. [Visual Studio Code](https://code.visualstudio.com/) especially was a delightful suprise with its debugger and terminal.
+Node comes with npm which provides good tooling for the Node development. [Visual Studio Code](https://code.visualstudio.com/) especially was a delightful suprise with its debugger and terminal.
 
 
 ### REPL
@@ -396,7 +397,7 @@ I.e. Node starts immediately and runs the tests. JVM boots very, very slowly, th
 
 Well, this comparison doesn't tell the whole truth. With Clojure REPL you don't actually run the whole project at once but you work on a namespace and load it onto REPL and experiment with it - which happens immediately since JVM and Clojure jar have already been loaded into the IDE.
 
-I'm not going to compare the Node / JVM performance differences in various scenarios since wiser men have already written quite a lot about it (e.g. "Speaking Intelligently about "Java vs Node" Performance"(https://rclayton.silvrback.com/speaking-intelligently-about-java-vs-node-performance)). But there is one thing that you should understand as a developer - the different paradigm how typical server implementations work in Node and JVM: Node handles all requests in one thread using event loop and JVM typically spins a new thread per request - both mechanisms have pros and cons.
+I'm not going to compare the Node / JVM performance differences in various scenarios since wiser men have already written quite a lot about it (e.g. [Speaking Intelligently about "Java vs Node" Performance](https://rclayton.silvrback.com/speaking-intelligently-about-java-vs-node-performance) ). But there is one thing that you should understand as a developer - the different paradigm how typical server implementations work in Node and JVM: Node handles all requests in one thread using event loop and JVM typically spins a new thread per request - both mechanisms have pros and cons.
 
 
 ### Javascript vs. Python
@@ -411,3 +412,10 @@ One example is the CSV processing. In the Python side this is pretty simple and 
 **Backend.** Definitely yes. If I can freely choose the backend stack I would probably go for Java/Spring in enterprise type of heavy stuff with a lot of developers, Clojure in a bit more relaxed data oriented backend system, probably Python when implementing short serverless functions in AWS/Azure. But there is a lot of Node implementations and if some team is already using Node - no problem, let's use Node. 
 
 **Frontend.** If I need to implement a simple admin type frontend for my own purposes I probably would use [ClojureScript](https://clojurescript.org/) since I really like the syntax and the real REPL when working with Lisp (read more in my [blog](https://medium.com/@kari.marttila/become-a-full-stack-developer-with-clojure-and-clojurescript-c58c93479294)). But the reality is that there are a lot of Javascript SPAs out there and if the team wants to use Javascript with Angular/React/whatever - no problem, let's use Javascript. One thing that I have learned anyway is that [SPA](https://en.wikipedia.org/wiki/Single-page_application) seems to be the future - I don't believe server side templating paradigm that much anymore (e.g. using Java with some templating libarary is a bit yesterday).
+
+
+### What Next?
+
+I get bored easily, I think I leave the Node land at least for a while. And I have to recertify one AWS certification soon and make another certification in Azure, so there is plenty of other learning to do in the near future. After those efforts I thought that it might be a nice idea to implement the Simple Server in Java and Python just to compare the four languages with the same implementation: Java, Python, Clojure and Javascript. And perhaps I'm going to learn Go next and do the implemenation in Go as a Go exercise. 
+
+Let's see if there are chances to use Javascript/Node in my future corporation projects. Time will tell. But at least for now I say goodbye to Node land.
