@@ -8,6 +8,7 @@
   - [Visual Studio Code](#visual-studio-code)
   - [Basic Tools - Nvm, Npm and Node](#basic-tools---nvm-npm-and-node)
   - [Npm installations](#npm-installations)
+  - [Express](#express)
   - [Static Code Analysis - ESLint](#static-code-analysis---eslint)
   - [Unit Testing - Mocha](#unit-testing---mocha)
   - [Command Line](#command-line)
@@ -43,13 +44,15 @@ This Simple Server is implemented using Javascript and Node. The functionality o
 
 So, the idea was to replicate the API of the previous Simple Server implemented in Clojure so that you can use the same [Clojure Simple Frontend](https://github.com/karimarttila/clojure/tree/master/clj-ring-cljs-reagent-demo/simple-frontend) to demonstrate the Javascript / Node Simple Server (the REST API is the same - you can use either server serving the Simple Frontend). This way it is also interesting to compare the two Simple Servers that are implemented in two totally different runtimes (JVM vs Node) and programming languages (Clojure vs Javascript).
 
-I also try to replicate the Clojure namespace structure to the equivalent Node structures so that it is easy to compare various parts of the application (e.g. [core.js](src/core.js) - [core.clj](https://github.com/karimarttila/clojure/blob/master/clj-ring-cljs-reagent-demo/simple-server/src/simpleserver/core.clj))
+I also try to replicate the Clojure namespace structure to the equivalent Node structures so that it is easy to compare various parts of the application (e.g. Node: [server.js](src/webserver/server.js) vs. Clojure: [server.clj](https://github.com/karimarttila/clojure/blob/master/clj-ring-cljs-reagent-demo/simple-server/src/simpleserver/webserver/server.clj) ).
 
 I also wrote a bit more concise summary in my [Medium blog](https://medium.com/@kari.marttila/java-mans-unholy-quest-in-the-node-land-958e61da0451) compared to the longer text you can find here in this readme.md.
 
 ## Technical Description
 
 Simple Server is implemented using [Javascript](https://developer.mozilla.org/bm/docs/Web/JavaScript) and [Node](https://nodejs.org/en/).
+
+The web framework used to implement the Simple Server is [express](https://expressjs.com/).
 
 
 ## Disclaimer
@@ -97,6 +100,13 @@ Install also the dev tools I used (using command "npm install <package> --save-d
 See [npm docs](https://docs.npmjs.com/) for more information how to use npm.
 
 If you have cloned this repository you can install all these packages using command "npm install" (which reads the [package.json](package.json) file and installs everything there).
+
+
+### Express
+
+The web framework used to implement the Simple Server is [express](https://expressjs.com/). I was pretty amazed how easy express was to use. Most of the things just worked out of the box, e.g. CORS which wasn't that easy in the Clojure side. Creating the routes was really easy. Also parsing the http request headers, parameters and body was really easy. Creating the http response body was also just a matter of setting http status code and returning the json structure that was created by the domain layer.
+
+See more in [server.js](src/webserver/server.js).
 
 
 ### Static Code Analysis - ESLint
