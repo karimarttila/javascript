@@ -40,17 +40,17 @@ function isValidToken(auth) {
     const len = auth.length;
     // String 'Basic '
     const rest = auth.substring(5, len);
-    const encoded = atob(rest);
-    logger.trace('encoded: ', encoded);
-    const index = encoded.indexOf(':NOT');
+    const decoded = atob(rest);
+    logger.trace('decoded: ', decoded);
+    const index = decoded.indexOf(':NOT');
     let token;
     // There was no ':NOT' part which is added in manual testing.
     if (index === -1) {
-      token = encoded;
+      token = decoded;
     }
     // There was ':NOT' part, strip it away.
     else {
-      token = encoded.substring(0, index);
+      token = decoded.substring(0, index);
     }
     logger.trace('token: ', token);
     ret = sessionService.validateJsonWebToken(token);

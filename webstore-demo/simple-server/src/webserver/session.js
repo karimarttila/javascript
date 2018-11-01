@@ -49,7 +49,7 @@ function validateJsonWebToken(jwt) {
     logger.warn('Token not found in my sessions - unknown token: ', jwt);
     ret = null;
   }
-  // Validatioin #2.
+  // Validation #2.
   else {
     try {
       const payload = jsonwebtoken.verify(jwt, mySecret);
@@ -63,6 +63,7 @@ function validateJsonWebToken(jwt) {
       if (err.name === 'TokenExpiredError') {
         // Expired or some other error
         logger.warn('Token is expired, removing it from my sessions and returning nil: ', jwt);
+        mySessions.delete(jwt);
       }
       else {
         logger.error('Some error in session handling: ', err);

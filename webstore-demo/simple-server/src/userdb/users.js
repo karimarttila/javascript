@@ -97,7 +97,7 @@ function addUser(newEmail, firstName, lastName, password) {
     ret = { email: newEmail, ret: 'ok' };
   }
   else {
-    logger.debug(`Failure: email already exists: ${newEmail}`);
+    logger.warn(`Failure: email already exists: ${newEmail}`);
     ret = { email: newEmail, ret: 'failed', msg: 'Email already exists' };
   }
   logger.debug('EXIT users.addUser');
